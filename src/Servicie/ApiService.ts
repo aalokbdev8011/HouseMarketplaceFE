@@ -23,7 +23,7 @@ export const fetchFavoriteListData = async (page: number) => {
   }
 };
 
-export const fetchBlogDataDetails = async (id: number): Promise<any> => {
+export const fetchPropertyDetails = async (id: number): Promise<any> => {
   try {
     const response = await axios.get(`${API_BASE_URL}/blog/${id}`);
     return response.data; // Assuming your API returns an object
@@ -34,7 +34,7 @@ export const fetchBlogDataDetails = async (id: number): Promise<any> => {
 };
 
 
-export const createBlogAPI = async (data: any): Promise<any> => {
+export const createPropertyAPI = async (data: any): Promise<any> => {
   try {
     const response = await axios.post(`${API_BASE_URL}/blog/create`, data);
     return response.data;
@@ -44,7 +44,7 @@ export const createBlogAPI = async (data: any): Promise<any> => {
   }
 };
 
-export const updateBlogAPI = async (postId: number, data: any): Promise<any> => {
+export const updatePropertyAPI = async (postId: number, data: any): Promise<any> => {
   try {
     const response = await axios.put(`${API_BASE_URL}/blog/update/${postId}`, data);
     return response.data;
