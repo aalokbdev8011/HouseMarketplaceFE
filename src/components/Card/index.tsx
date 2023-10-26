@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 interface HotelProps {
+  key: string;
   id: string;
   title: string;
   rate: string;
@@ -11,18 +12,19 @@ interface HotelProps {
   toggleFavorite: (id: string) => void;
   image: string;
   openShowDeleteModal: () => void;
+  openCreatePropertyModal?: () => void;
 }
 
 const API_BASE_URL = 'http://localhost:3001';
 
-const HotelCard: React.FC<HotelProps> = ({ id, title, rate, city, isFavorite, image, toggleFavorite, openShowDeleteModal }) => {
+const HotelCard: React.FC<HotelProps> = ({ key, id, title, rate, city, isFavorite, image, toggleFavorite, openShowDeleteModal , openCreatePropertyModal}) => {
   const userString = localStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
   const isAdmin = user?.role === "admin";
 
   return (
-    <div className="mx-3 bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="mx-3 bg-white shadow-lg rounded-lg overflow-hidden" key={key}>
       <div className='relative'>
         <Link to={`/hotel-details/${id}`} className="block">
           <img
@@ -63,6 +65,7 @@ const HotelCard: React.FC<HotelProps> = ({ id, title, rate, city, isFavorite, im
             src="https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-line/254000/127-512.png"
           />
           <img
+            onClick={openCreatePropertyModal}
             className="w-8 h-8 cursor-pointer"
             alt="edit"
             src="https://cdn3.iconfinder.com/data/icons/user-interface-web-1/550/web-circle-circular-round_58-512.png"

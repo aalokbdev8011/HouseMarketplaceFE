@@ -3,7 +3,7 @@ import HotelCard from '../../components/Card';
 import { addFavoriteById, fetchData } from '../../Servicie/ApiService';
 import Pagination from '../../components/Pagination';
 import DeleteModal from '../../components/DeleteModal';
-import CreatePropertyForm from '../../components/CreatePropertyForm';
+import CreatePropertyModal from '../../components/CreatePropertyModal';
 
 interface Hotel {
   id: string;
@@ -33,6 +33,10 @@ const Home: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showCreatePropertyModal, setShowCreatePropertyModal] = useState(false);
 
+  const userString = localStorage.getItem("user");
+  const user = userString ? JSON.parse(userString) : null;
+
+  const isAdmin = user?.role === "admin";
 
   useEffect(() => {
     fetchHotels(currentPage);
@@ -81,7 +85,7 @@ const Home: React.FC = () => {
     <div className=' bg-gray-100'>
       <div className="max-w-[1200px] mx-auto">
         <h1 className="text-2xl font-bold">Home</h1>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700" onClick={openCreatePropertyModal}>showCreatePropertyModal</button>
+        {isAdmin && <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700" onClick={openCreatePropertyModal}>showCreatePropertyModal</button>}
         <div className="flex justify-center w-full flex-wrap items-center min-h-screen">
           {hotels.map((hotel) => (
             <div key={hotel.id} className="md:w-1/3 sm:w-1/2 w-full my-3">
@@ -96,11 +100,12 @@ const Home: React.FC = () => {
                 toggleFavorite={toggleFavorite}
                 image={hotel.attributes.images}
                 openShowDeleteModal={openShowDeleteModal}
+                openCreatePropertyModal={openCreatePropertyModal}
               />
             </div>
           ))}
         </div>
-        <CreatePropertyForm
+        <CreatePropertyModal
           isOpen={showCreatePropertyModal}
           onCancel={() => setShowCreatePropertyModal(false)}
         />
