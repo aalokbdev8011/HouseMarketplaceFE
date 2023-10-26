@@ -23,7 +23,7 @@ export const fetchFavoriteListData = async (page: number) => {
   }
 };
 
-export const fetchPropertyDetails = async (id: number): Promise<any> => {
+export const fetchPropertyDetails = async (id: number) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/blog/${id}`);
     return response.data; // Assuming your API returns an object
@@ -34,9 +34,10 @@ export const fetchPropertyDetails = async (id: number): Promise<any> => {
 };
 
 
-export const createPropertyAPI = async (data: any): Promise<any> => {
+export const createPropertyAPI = async (data: any) => {
+  console.log("formData-------", data);
   try {
-    const response = await axios.post(`${API_BASE_URL}/blog/create`, data);
+    const response = await axios.post(`${API_BASE_URL}/properties`, data);
     return response.data;
   } catch (error) {
     console.error('Error posting data:', error);
@@ -95,5 +96,15 @@ export const login = async (credentials: any) => {
       toast.error(error.response.data.error);
       return null;
     }
+  }
+};
+
+export const logout = async () => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/logout`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    throw error;
   }
 };

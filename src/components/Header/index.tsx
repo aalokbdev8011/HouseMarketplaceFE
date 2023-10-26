@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../../Servicie/ApiService';
 
 interface User {
   email: string;
@@ -18,7 +19,7 @@ const Header: React.FC = () => {
   const handleLogout = () => {
     // Remove user data from local storage
     localStorage.removeItem("user");
-
+    logout();
     // Use navigate function to navigate to the home page
     navigate("/");
   };

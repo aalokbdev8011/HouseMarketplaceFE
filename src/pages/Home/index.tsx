@@ -4,6 +4,7 @@ import { addFavoriteById, fetchData } from '../../Servicie/ApiService';
 import Pagination from '../../components/Pagination';
 import DeleteModal from '../../components/DeleteModal';
 import CreatePropertyModal from '../../components/CreatePropertyModal';
+import FilterComponent from '../../components/FilterComponent';
 
 interface Hotel {
   id: string;
@@ -79,6 +80,10 @@ const Home: React.FC = () => {
 
   };
 
+  const handleSearch = (filter: any) => {
+    console.log('handleSearch---', filter)
+  };
+
 
 
   return (
@@ -86,6 +91,7 @@ const Home: React.FC = () => {
       <div className="max-w-[1200px] mx-auto">
         <h1 className="text-2xl font-bold">Home</h1>
         {isAdmin && <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700" onClick={openCreatePropertyModal}>showCreatePropertyModal</button>}
+        <FilterComponent onSearch={handleSearch} />
         <div className="flex justify-center w-full flex-wrap items-center min-h-screen">
           {hotels.map((hotel) => (
             <div key={hotel.id} className="md:w-1/3 sm:w-1/2 w-full my-3">
