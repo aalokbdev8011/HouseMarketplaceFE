@@ -80,9 +80,13 @@ const Home: React.FC = () => {
 
   };
 
-  const handleSearch = (filters: any) => {
-    console.log('handleSearch---', filters)
-    filterProperty(currentPage, filters)
+  const handleSearch = async(filters: any) => {
+    const response = await filterProperty(currentPage, filters);
+    if (response && response.properties && response.properties.data) {
+      setHotels(response.properties.data);
+      const pages = Math.ceil(response.total_item / ITEMS_PER_PAGE);
+      setTotalPages(pages || 0); // Set total items from the API response
+    }
   };
 
 

@@ -27,7 +27,6 @@ export const filterProperty = async (page: number, filters: any) => {
   try {
     let apiUrl = `${API_BASE_URL}/properties/filter_properties?page=${page}`;
    
-    console.log('------,,,', filters)
     if (filters.city) {
       apiUrl += `&city=${filters.city}`;
     }
