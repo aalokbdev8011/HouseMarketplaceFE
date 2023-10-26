@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import HotelCard from '../../components/Card';
-import { addFavoriteById, fetchData } from '../../Servicie/ApiService';
+import { addFavoriteById, fetchData, filterProperty } from '../../Servicie/ApiService';
 import Pagination from '../../components/Pagination';
 import DeleteModal from '../../components/DeleteModal';
 import CreatePropertyModal from '../../components/CreatePropertyModal';
@@ -80,8 +80,9 @@ const Home: React.FC = () => {
 
   };
 
-  const handleSearch = (filter: any) => {
-    console.log('handleSearch---', filter)
+  const handleSearch = (filters: any) => {
+    console.log('handleSearch---', filters)
+    filterProperty(currentPage, filters)
   };
 
 

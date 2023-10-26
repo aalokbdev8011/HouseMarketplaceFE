@@ -23,6 +23,37 @@ export const fetchFavoriteListData = async (page: number) => {
   }
 };
 
+export const filterProperty = async (page: number, filters: any) => {
+  try {
+    let apiUrl = `${API_BASE_URL}/properties/filter_properties?page=${page}`;
+   
+    console.log('------,,,', filters)
+    if (filters.city) {
+      apiUrl += `&city=${filters.city}`;
+    }
+    if (filters.district) {
+      apiUrl += `&district=${filters.district.join(',')}`;
+    }
+    if (filters.priceMin) {
+      apiUrl += `&priceMin=${filters.priceMin}`;
+    }
+    if (filters.priceMax) {
+      apiUrl += `&priceMax=${filters.priceMax}`;
+    }
+    if (filters.propertyType) {
+      apiUrl += `&propertyType=${filters.propertyType}`;
+    }
+    if (filters.fare) {
+      apiUrl += `&fare=${filters.fare}`;
+    }
+    const response = await axios.get(apiUrl);
+    return response.data; // Assuming your API returns an array of data
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return []; // Return an empty array in case of an error
+  }
+};
+
 export const fetchPropertyDetails = async (id: number) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/blog/${id}`);
