@@ -57,7 +57,7 @@ const HotelCard: React.FC<HotelProps> = ({ key, id, title, rate, city, isFavorit
         <p className='text-sm text-gray-600'>MRT： Taipei City Hall</p>
       </div>
       {isAdmin &&
-        <div>
+        <div className='flex gap-3 justify-end p-2'>
           <img
             onClick={openShowDeleteModal}
             className="w-8 h-8 cursor-pointer"

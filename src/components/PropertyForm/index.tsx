@@ -157,7 +157,7 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
     });
 
     return (
-        <div className="addpostpage d-flex align-items-center justify-content-center max-h-[65vh] overflow-auto">
+        <div className="addpostpage d-flex align-items-center justify-content-center  overflow-auto">
             <Formik
                 initialValues={initialValuesForEdit}
                 validationSchema={validationSchema}
@@ -165,64 +165,64 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
                 enableReinitialize={true}
             >
                 {(formik) => (
-                    <Form className="d-flex flex-column addpostForm px-3">
-                        <div className="flex flex-col mb-3">
+                    <Form className="flex flex-wrap addpostForm px-3">
+                        <div className="flex flex-col w-1/2 mb-3 px-2">
                             <label className="text-black mb-2" htmlFor="title">
                                 Title
                             </label>
                             <Field className="inputField text-black p-3 bg-white border border-gray" type="text" id="title" name="title" />
-                            <ErrorMessage name="title" component="div" className="error" />
+                            <ErrorMessage name="title" component="div" className="error text-red-400" />
                         </div>
 
-                        <div className="flex flex-col mb-3">
+                        <div className="flex flex-col w-1/2 mb-3 px-2">
                             <label className="text-black mb-2" htmlFor="price">
                                 Price
                             </label>
                             <Field className="inputField p-3 text-black bg-white border border-gray" type="text" id="price" name="price" />
-                            <ErrorMessage name="price" component="div" className="error" />
+                            <ErrorMessage name="price" component="div" className="error text-red-400" />
                         </div>
 
-                        <div className="flex flex-col mb-3">
+                        <div className="flex flex-col w-1/2 mb-3 px-2">
                             <label className="text-black mb-2" htmlFor="city">
                                 City
                             </label>
                             <Field className="inputField p-3 text-black bg-white border border-gray" type="text" id="city" name="city" />
-                            <ErrorMessage name="city" component="div" className="error" />
+                            <ErrorMessage name="city" component="div" className="error text-red-400" />
                         </div>
 
-                        <div className="flex flex-col mb-3">
+                        <div className="flex flex-col w-1/2 mb-3 px-2">
                             <label className="text-black mb-2" htmlFor="district">
                                 District
                             </label>
                             <Field className="inputField p-3 text-black bg-white border border-gray" type="text" id="district" name="district" />
-                            <ErrorMessage name="district" component="div" className="error" />
+                            <ErrorMessage name="district" component="div" className="error text-red-400" />
                         </div>
 
-                        <div className="flex flex-col mb-3">
+                        <div className="flex flex-col w-1/2 mb-3 px-2">
                             <label className="text-black mb-2" htmlFor="rooms">
                                 Rooms
                             </label>
                             <Field className="inputField p-3 text-black bg-white border border-gray" type="number" id="rooms" name="rooms" />
-                            <ErrorMessage name="rooms" component="div" className="error" />
+                            <ErrorMessage name="rooms" component="div" className="error text-red-400" />
                         </div>
 
-                        <div className="flex flex-col mb-3">
+                        <div className="flex flex-col w-1/2 mb-3 px-2">
                             <label className="text-black mb-2" htmlFor="mrt_station">
                                 MRT Station
                             </label>
                             <Field className="inputField p-3 text-black bg-white border border-gray" type="text" id="mrt_station" name="mrt_station" />
-                            <ErrorMessage name="mrt_station" component="div" className="error" />
+                            <ErrorMessage name="mrt_station" component="div" className="error text-red-400" />
                         </div>
 
-                        <div className="flex flex-col mb-3">
+                        <div className="flex flex-col w-1/2 mb-3 px-2">
                             <label className="text-black mb-2" htmlFor="property_type">
                                 Property Type
                             </label>
                             <Field className="inputField p-3 text-black bg-white border border-gray" type="text" id="property_type" name="property_type" />
-                            <ErrorMessage name="property_type" component="div" className="error" />
+                            <ErrorMessage name="property_type" component="div" className="error text-red-400" />
                         </div>
 
-                        <div className="flex flex-col mb-3">
+                        <div className="flex flex-col w-1/2 mb-3 px-2">
                             <label className="text-black mb-2" htmlFor="images">
                                 Upload Images
                             </label>
@@ -240,10 +240,10 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
                                     formik.setFieldValue("images", file);
                                 }}
                             />
-                            <ErrorMessage name="images" component="div" className="error" />
+                            <ErrorMessage name="images" component="div" className="error text-red-400" />
                         </div>
 
-                        <div className="flex justify-end">
+                        <div className="flex justify-end w-full mt-5">
                             <button
                                 className="text-gray-700 bg-[#d1d1d1] mr-3 font-bold uppercase px-6 py-3 rounded-md text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                 type="button"
@@ -254,7 +254,7 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
 
                             <button
                                 type="submit"
-                                className="bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-md text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                className=" bg-gradient-to-r from-blue-300 to-cyan-700 text-white p-2 rounded shadow-md hover:shadow-lg w-[100px] h-[45px] flex justify-center items-center"
                                 disabled={submitBtnDisable}
                             >
                                 {submitBtnDisable ? <ButtonLoader /> : "Submit"}

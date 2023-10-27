@@ -90,21 +90,26 @@ function FilterComponent({ onSearch }: FilterComponentProps) {
     const dataToMap = city === "Taipei City" ? districtNamesTaipeiCity : districtNamesNewTaipeiCity;
 
     return (
-        <div className=' w-full p-5 bg-gray-light border'>
-
+        <div className=' w-full p-5 bg-white rounded-md flex lg:justify-between justify-start border items-end lg:flex-nowrap flex-wrap lg:gap-0 gap-3'>
+            <div className='flex flex-col sm:w-auto w-full'>
+            <label>Type</label>
             <select className="appearance-none w-25 bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50 mr-2" value={propertyType} onChange={(e) => setPropertyType(e.target.value)}>
                 <option value="">Select Type</option>
                 <option value="Residential">Residential</option>
                 <option value="Office">Office</option>
                 <option value="Retail">Retail</option>
             </select>
-
+            </div>
+            <div className='flex flex-col sm:w-auto w-full'>
+            <label>City</label>
             <select className="appearance-none w-25 bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50 mr-2" value={city} onChange={handleCityChange}>
                 <option value="">Select City</option>
                 <option value="Taipei City">Taipei City</option>
                 <option value="New Taipei City">New Taipei City</option>
             </select>
-            <div className="relative inline-block text-left">
+            </div>
+            <div className="relative inline-block text-left sm:w-auto w-full">
+            <label>District</label>
                 <button
                     onClick={toggleDropdown}
                     className="inline-flex justify-center w-full  px-4 py-2 text-sm font-medium text-blabk bg-white border border-gray-light  focus:outline-none"
@@ -131,21 +136,29 @@ function FilterComponent({ onSearch }: FilterComponentProps) {
                 )}
             </div>
 
+            <div className='flex flex-col ml-2 relative sm:w-auto w-full'>
+            <label>Minimum Price</label>
             <input
                 type="text"
                 placeholder="Minimum Price"
                 value={priceMin}
                 onChange={(e) => setPriceMin(e.target.value)}
-                className="w-72 border p-2 rounded ml-2"
+                className="w-full border p-2 rounded"
             />
+            <span className='absolute bottom-0 right-0 px-3 p-[9px] bg-gray-300'>ping</span>
+            </div>
+            <div className='flex flex-col ml-2 relative  sm:w-auto w-full'>
+            <label>Maximum Price</label>
             <input
                 type="text"
                 placeholder="Maximum Price"
                 value={priceMax}
                 onChange={(e) => setPriceMax(e.target.value)}
-                className="w-72 border p-2 rounded ml-2"
+                className="w-full border p-2 rounded"
             />
-            <button className="bg-gray-500 text-white py-2 px-4 hover:bg-blue-700 ml-2" onClick={handleSearch}>Search</button>
+            <span className='absolute bottom-0 right-0 px-3 p-[9px] bg-gray-300'>ping</span>
+            </div>
+            <button className="bg-gradient-to-r from-blue-300 to-cyan-700 text-white p-2 h-10 rounded shadow-md hover:shadow-lg ml-2" onClick={handleSearch}>Search</button>
         </div>
     );
 }

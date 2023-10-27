@@ -105,12 +105,13 @@ const Signup: React.FC<FormState> = () => {
   };
 
   return (
-    <div data-testid="signup-wrapper">
-      <div className="w-1/3 mx-auto mt-5">
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <h2 className="text-2xl font-bold text-center mb-4">Signup</h2>
+    <div data-testid="signup-wrapper" className='flex h-[90.3vh] bg-gradient-to-r from-blue-300 to-cyan-700'>
+      <div className="md:w-[500px] w-[85%] mx-auto flex items-center">
+        <div className="bg-white shadow-md rounded-xl px-8 pt-6 pb-8 mb-4 w-full">
+          <h2 className="text-2xl text-cyan-800 font-bold text-center mb-4">Signup</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
+              <div className='mb-3'>
               <input
                 name="name"
                 type="text"
@@ -120,6 +121,9 @@ const Signup: React.FC<FormState> = () => {
                 className={`w-full border ${errors.name ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
               />
               {errors.email && <span className="text-red-500">{errors.email}</span>}
+              </div>
+              <div className='mb-3'>
+
               <input
                 name="email"
                 type="email"
@@ -129,6 +133,9 @@ const Signup: React.FC<FormState> = () => {
                 className={`w-full border ${errors.email ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
               />
               {errors.email && <span className="text-red-500">{errors.email}</span>}
+              </div>
+              <div className='mb-3'>
+
               <input
                 name="password"
                 type="password"
@@ -138,6 +145,9 @@ const Signup: React.FC<FormState> = () => {
                 className={`w-full border ${errors.password ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
               />
               {errors.password && <span className="text-red-500">{errors.password}</span>}
+              </div>
+              <div className='mb-3'>
+
               <input
                 name="confirmPassword"
                 type="password"
@@ -147,11 +157,11 @@ const Signup: React.FC<FormState> = () => {
                 className={`w-full border ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
               />
               {errors.confirmPassword && <span className="text-red-500">{errors.confirmPassword}</span>}
-            </div>
+          </div></div>
             <button
               name="Signup"
               type="submit"
-              className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+              className="w-full bg-gradient-to-r from-blue-300 to-cyan-700 text-white p-2 rounded shadow-md hover:shadow-lg"
             >
               Signup
             </button>

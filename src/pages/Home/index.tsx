@@ -99,9 +99,13 @@ const Home: React.FC = () => {
 
   return (
     <div className=' bg-gray-100'>
-      <div className="max-w-[1200px] mx-auto">
-        <h1 className="text-2xl font-bold">Home</h1>
-        {isAdmin && <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700" onClick={openCreatePropertyModal}>Create Property</button>}
+      <div className="max-w-[1200px] lg:mx-auto mx-3 ">
+        <div className='flex justify-between py-5'>
+          
+        <h1 className="text-2xl text-cyan-800 font-semibold">Home</h1>
+        {isAdmin && <button className="bg-gradient-to-r from-blue-300 to-cyan-700 text-white p-2 rounded shadow-md hover:shadow-lg" onClick={openCreatePropertyModal}>Create Property</button>}
+       
+        </div>
         <FilterComponent onSearch={handleSearch} />
         {loading ? ( // Render the loader when loading is true
           <div className="text-center mt-4">
