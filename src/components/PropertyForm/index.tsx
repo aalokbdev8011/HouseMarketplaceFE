@@ -74,11 +74,11 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
 
     useEffect(() => {
         if (editMode) {
-            fetchPostData();
+            fetchPostData(postId);
         }
     }, [editMode, postId]);
 
-    const fetchPostData = async () => {
+    const fetchPostData = async (postId: number) => {
         try {
             const data: ApiResponse = await fetchPropertyDetails(postId);
             if (data?.blog) {
@@ -136,9 +136,7 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
             } else {
 
                 const response: ApiResponse = await createPropertyAPI(formData);
-                console.log('=======response', response)
                 if (response.success) {
-                    console.log('------success', response)
                     toast.success(response.message);
                     navigate("/");
                     setShowModal(false);
