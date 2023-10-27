@@ -65,7 +65,6 @@ export const fetchPropertyDetails = async (id: number) => {
 
 
 export const createPropertyAPI = async (data: any) => {
-  console.log("formData-------", data);
   try {
     const response = await axios.post(`${API_BASE_URL}/properties`, data);
     return response.data;

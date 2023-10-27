@@ -37,7 +37,8 @@ const CreatePropertyModal: React.FC<CreatePropertyFormProps> = ({ isOpen, onCanc
                                     <PropertyForm
                                         setShowModal={setShowModal}
                                         editMode={false}
-                                        postId={1} />
+                                        postId={1} 
+                                        onCancel={onCancel}/>
                                 </div>
                                 {/*footer*/}
                                 {/* <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">

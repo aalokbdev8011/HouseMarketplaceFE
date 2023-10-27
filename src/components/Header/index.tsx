@@ -16,12 +16,13 @@ const Header: React.FC = () => {
     return email ? email[0].toUpperCase() : '';
   };
 
-  const handleLogout = () => {
+  const handleLogout  = async () => {
     // Remove user data from local storage
+    await logout();
     localStorage.removeItem("user");
-    logout();
     // Use navigate function to navigate to the home page
     navigate("/");
+    window.location.href = "/";
   };
 
   return (

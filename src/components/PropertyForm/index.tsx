@@ -62,10 +62,11 @@ const bufferToFile = (bufferImageData: ArrayBuffer): File => {
     return new File([blob], "image.jpg", { type: "image/jpeg" });
 };
 
-const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; editMode: boolean; postId: number }> = ({
+const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: () => void; editMode: boolean; postId: number }> = ({
     setShowModal,
     editMode,
     postId,
+    onCancel
 }) => {
     const [submitBtnDisable, setSubmitBtnDisable] = useState(false);
     const navigate = useNavigate();
@@ -248,7 +249,7 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; editMode: 
                             <button
                                 className="text-gray-700 bg-[#d1d1d1] mr-3 font-bold uppercase px-6 py-3 rounded-md text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                 type="button"
-                                onClick={() => setShowModal(false)}
+                                onClick={onCancel}
                             >
                                 Close
                             </button>
