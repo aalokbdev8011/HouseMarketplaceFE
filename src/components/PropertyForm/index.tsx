@@ -122,7 +122,7 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
                 if (response.success) {
                     toast.success(response.message);
                     navigate("/");
-                    setShowModal(false);
+                    onCancel()
                 } else {
                     toast.error(response.message);
                 }
@@ -130,9 +130,9 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
 
                 const response: ApiResponse = await createPropertyAPI(formData);
                 if (response.success) {
-                    toast.success(response.message);
+                    toast.success('Property added successfully');
+                    onCancel();
                     navigate("/");
-                    setShowModal(false);
                 } else if (response.success === false) {
                     toast.error(response.message);
                 }

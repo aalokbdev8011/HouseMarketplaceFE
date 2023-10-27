@@ -100,6 +100,7 @@ const Favorites: React.FC = () => {
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={handlePageChange}
+                    maxVisiblePages={5}
                 />
             </div>
         </div>

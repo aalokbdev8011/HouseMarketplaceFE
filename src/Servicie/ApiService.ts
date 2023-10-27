@@ -24,7 +24,13 @@ export const fetchData = async (page: number) => {
 
 export const fetchFavoriteListData = async (page: number) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/favorites`);
+    const jwtToken = localStorage.getItem('jwtToken');
+    const response = await axios.get(`${API_BASE_URL}/favorites`, {
+      headers: {
+        Authorization: `${jwtToken}`
+      }
+    });
+
     return response.data; // Assuming your API returns an array of data
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -105,7 +111,12 @@ export const updatePropertyAPI = async (postId: number, data: any): Promise<any>
 
 export const deletePropertyById = async (id: number) => {
   try {
-    const response = await axios.delete(`${API_BASE_URL}/properties/${id}`);
+    const jwtToken = localStorage.getItem('jwtToken');
+    const response = await axios.delete(`${API_BASE_URL}/properties/${id}`, {
+      headers: {
+        Authorization: `${jwtToken}`
+      }
+    });
     return response.data;
   } catch (error) {
     console.error('Error deleting user:', error);

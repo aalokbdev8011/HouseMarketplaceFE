@@ -89,13 +89,13 @@ const Home: React.FC = () => {
         }
       });
     }
-    
+
   };
 
-  const handleDelete = () => {
-    console.log('-----Delete', propertyId);
+  const handleDelete = async () => {
     if (propertyId !== undefined) {
-      deletePropertyById(propertyId);
+     const res = await deletePropertyById(propertyId);
+     console.log('res', res);
     }
 
   };
@@ -169,7 +169,8 @@ const Home: React.FC = () => {
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={handlePageChange}
+            onPageChange={handlePageChange} 
+            maxVisiblePages={5}
           />
         </div>
       </div>

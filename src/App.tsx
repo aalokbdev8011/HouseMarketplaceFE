@@ -27,7 +27,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Login />} />
           {/* Conditionally open the /create-properties route for admin users */}
-          {isAuthenticated && <Route path="/favorites" element={<Favorites />} />}
+          <Route path="/favorites" element={<Favorites />} />
         </Routes>
         <ToastContainer />
       </div>
