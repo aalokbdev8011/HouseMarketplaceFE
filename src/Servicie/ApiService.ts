@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
-const API_BASE_URL = 'http://localhost:3001';
-// const API_BASE_URL = 'https://housemarketplace.onrender.com';
+// const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'https://housemarketplace.onrender.com';
 
 const jwtToken = () => {
   return localStorage.getItem('jwtToken');
