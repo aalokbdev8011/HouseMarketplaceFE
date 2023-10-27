@@ -110,18 +110,11 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
         formData.append('property[title]', values.title);
         formData.append('property[price]', values.price);
         formData.append('property[city]', values.city);
-        if (Array.isArray(values.district)) {
-            values.district.forEach((district, index) => {
-                formData.append(`property[district][${index}]`, district);
-            });
-        } else {
-            // If it's not an array, you can append it as a single value
-            formData.append('property[district][]', values.district);
-        }
+        formData.append(`property[district]`, values.district);
         formData.append('property[rooms]', `${values.rooms}`);
         formData.append('property[mrt_station]', values.mrt_station);
         formData.append('property[property_type]', values.property_type);
-        formData.append('property[images]', values.images || '');
+        formData.append('property[image]', values.images || '');
 
         try {
             if (editMode) {

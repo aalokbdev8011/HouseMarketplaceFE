@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
-
-const API_BASE_URL = 'https://housemarketplace.onrender.com';
+const API_BASE_URL = 'http://localhost:3001';
+// const API_BASE_URL = 'https://housemarketplace.onrender.com';
 
 const jwtToken = () => {
   return localStorage.getItem('jwtToken');
@@ -11,10 +11,10 @@ export const fetchData = async (page: number) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/properties?page=${page}`, {
       headers: {
-        Authorization: jwtToken() ?  jwtToken() : ''
+        Authorization: jwtToken() ? jwtToken() : ''
       }
     }
-  );
+    );
     return response.data; // Assuming your API returns an array of data
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -35,7 +35,7 @@ export const fetchFavoriteListData = async (page: number) => {
 export const filterProperty = async (page: number, filters: any) => {
   try {
     let apiUrl = `${API_BASE_URL}/properties/filter_properties?page=${page}`;
-   
+
     if (filters.city) {
       apiUrl += `&city=${filters.city}`;
     }
@@ -75,7 +75,12 @@ export const fetchPropertyDetails = async (id: number) => {
 
 export const createPropertyAPI = async (data: any) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/properties`, data);
+    const jwtToken = localStorage.getItem('jwtToken');
+    const response = await axios.post(`${API_BASE_URL}/properties`, data, {
+      headers: {
+        Authorization: `${jwtToken}`
+      }
+    });
     return response.data;
   } catch (error) {
     console.error('Error posting data:', error);
@@ -85,7 +90,12 @@ export const createPropertyAPI = async (data: any) => {
 
 export const updatePropertyAPI = async (postId: number, data: any): Promise<any> => {
   try {
-    const response = await axios.put(`${API_BASE_URL}/blog/update/${postId}`, data);
+    const jwtToken = localStorage.getItem('jwtToken');
+    const response = await axios.put(`${API_BASE_URL}/blog/update/${postId}`, data, {
+      headers: {
+        Authorization: `${jwtToken}`
+      }
+    });
     return response.data;
   } catch (error) {
     console.error('Error posting data:', error);
@@ -126,7 +136,7 @@ export const removeFavoriteById = async (favoriteById: any) => {
 export const addFavoriteById = async (favoriteById: any) => {
   try {
     const jwtToken = localStorage.getItem('jwtToken');
-    if(jwtToken != undefined) {
+    if (jwtToken != undefined) {
       const response = await axios.post(
         `${API_BASE_URL}/favorites`,
         favoriteById,
@@ -140,7 +150,7 @@ export const addFavoriteById = async (favoriteById: any) => {
     } else {
       toast.error('You need to login before adding favourite');
     }
-    
+
   } catch (error: any) {
     if (error.response && error.response.data && error.response.data.error) {
       toast.error(error.response.data.error);
