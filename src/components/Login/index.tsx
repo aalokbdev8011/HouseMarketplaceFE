@@ -82,12 +82,8 @@ const Login: React.FC<FormState> = () => {
           console.log('result', result)
           // toast.success(result.status.message);
           localStorage.setItem("user", JSON.stringify(result));
-          console.log('Bearer-----result.token', "Bearer "+result.token)
-          
+
           localStorage.setItem("jwtToken", JSON.stringify("Bearer " + result.token))
-          // localStorage.setItem("token", JSON.stringify(result.data));
-          // debugger
-          // localStorage.setItem("token", result.headers.get('Authorization'));
           navigate('/')
         }
       });

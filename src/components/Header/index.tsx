@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { logout } from '../../Servicie/ApiService';
 
 interface User {
   email: string;

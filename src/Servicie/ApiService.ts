@@ -1,17 +1,17 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
 
-// const API_BASE_URL = 'http://localhost:3001';
 const API_BASE_URL = 'https://housemarketplace.onrender.com';
 
-const jwtToken = localStorage.getItem('jwtToken');
+const jwtToken = () => {
+  return localStorage.getItem('jwtToken');
+}
 
 export const fetchData = async (page: number) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/properties?page=${page}`,
-    {
+    const response = await axios.get(`${API_BASE_URL}/properties?page=${page}`, {
       headers: {
-        Authorization: `${jwtToken}`
+        Authorization: jwtToken() ?  jwtToken() : ''
       }
     }
   );
@@ -106,6 +106,7 @@ export const deletePropertyById = async (id: number) => {
 
 export const removeFavoriteById = async (favoriteById: any) => {
   try {
+    const jwtToken = localStorage.getItem('jwtToken');
     const response = await axios.delete(
       `${API_BASE_URL}/favorites/${favoriteById}`,
       {
@@ -124,16 +125,22 @@ export const removeFavoriteById = async (favoriteById: any) => {
 };
 export const addFavoriteById = async (favoriteById: any) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/favorites`,
-      favoriteById,
-      {
-        headers: {
-          Authorization: `${jwtToken}`
+    const jwtToken = localStorage.getItem('jwtToken');
+    if(jwtToken != undefined) {
+      const response = await axios.post(
+        `${API_BASE_URL}/favorites`,
+        favoriteById,
+        {
+          headers: {
+            Authorization: `${jwtToken}`
+          }
         }
-      }
-    );
-    return response.data;
+      );
+      return response.data;
+    } else {
+      toast.error('You need to login before adding favourite');
+    }
+    
   } catch (error: any) {
     if (error.response && error.response.data && error.response.data.error) {
       toast.error(error.response.data.error);
@@ -144,7 +151,7 @@ export const addFavoriteById = async (favoriteById: any) => {
 
 export const signup = async (userData: any) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/signup.json`, userData);
+    const response = await axios.post(`${API_BASE_URL}/users/sign_up`, userData);
     return response.data;
   } catch (error) {
     console.error('Error signing up:', error);
@@ -161,15 +168,5 @@ export const login = async (credentials: any) => {
       toast.error(error.response.data.error);
       return null;
     }
-  }
-};
-
-export const logout = async () => {
-  try {
-    const response = await axios.delete(`${API_BASE_URL}/logout`);
-    return response.data;
-  } catch (error) {
-    console.error('Error deleting user:', error);
-    throw error;
   }
 };
