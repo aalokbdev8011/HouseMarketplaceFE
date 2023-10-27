@@ -97,7 +97,6 @@ const Signup: React.FC<FormState> = () => {
       signup(data).then((result) => {
         if (result) {
           toast.success(`${result.status.message}`);
-          localStorage.setItem("user", JSON.stringify(result.data));
           navigate('/signin')
         }
       });

@@ -9,9 +9,9 @@ interface HotelProps {
   city: string;
   district: string[];
   isFavorite: boolean;
-  toggleFavorite: (id: string) => void;
+  toggleFavorite: (id: string, isFavorite: boolean) => void;
   image: string;
-  openShowDeleteModal: () => void;
+  openShowDeleteModal: (id: string) => void;
   openCreatePropertyModal?: () => void;
 }
 
@@ -36,7 +36,7 @@ const HotelCard: React.FC<HotelProps> = ({ key, id, title, rate, city, isFavorit
         </Link>
         <div className="absolute top-2 right-2 cursor-pointer">
           <svg
-            onClick={() => toggleFavorite(id)}
+            onClick={() => toggleFavorite(id, isFavorite)}
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -59,7 +59,7 @@ const HotelCard: React.FC<HotelProps> = ({ key, id, title, rate, city, isFavorit
       {isAdmin &&
         <div className='flex gap-3 justify-end p-2'>
           <img
-            onClick={openShowDeleteModal}
+            onClick={(id) => openShowDeleteModal("1")}
             className="w-8 h-8 cursor-pointer"
             alt="delete"
             src="https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-line/254000/127-512.png"

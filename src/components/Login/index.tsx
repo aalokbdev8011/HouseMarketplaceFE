@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { login } from '../../Servicie/ApiService';
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
 interface FormState {
@@ -79,8 +79,15 @@ const Login: React.FC<FormState> = () => {
       }
       login(data).then((result) => {
         if (result) {
-          toast.success(result.status.message);
-          localStorage.setItem("user", JSON.stringify(result.data));
+          console.log('result', result)
+          // toast.success(result.status.message);
+          localStorage.setItem("user", JSON.stringify(result));
+          console.log('Bearer-----result.token', "Bearer "+result.token)
+          
+          localStorage.setItem("jwtToken", JSON.stringify("Bearer " + result.token))
+          // localStorage.setItem("token", JSON.stringify(result.data));
+          // debugger
+          // localStorage.setItem("token", result.headers.get('Authorization'));
           navigate('/')
         }
       });

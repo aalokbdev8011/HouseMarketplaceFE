@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import HotelCard from '../../components/Card';
-import { addFavoriteById, fetchData, filterProperty } from '../../Servicie/ApiService';
+import { addFavoriteById, deletePropertyById, fetchData, filterProperty, removeFavoriteById } from '../../Servicie/ApiService';
 import Pagination from '../../components/Pagination';
 import DeleteModal from '../../components/DeleteModal';
 import CreatePropertyModal from '../../components/CreatePropertyModal';
@@ -18,6 +18,7 @@ interface Hotel {
     address: string | null;
     mrt_station: string;
     property_type: string;
+    is_favorite: boolean;
     rooms: number;
     created_at: string;
     updated_at: string;
@@ -34,6 +35,7 @@ const Home: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showCreatePropertyModal, setShowCreatePropertyModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [propertyId, setPropertyId] = useState<number>();
 
   const userString = localStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
@@ -48,7 +50,7 @@ const Home: React.FC = () => {
     const response = await fetchData(page);
     if (response && response.properties && response.properties.data) {
       setHotels(response.properties.data);
-      const pages = Math.ceil(response.total_item / ITEMS_PER_PAGE);
+      const pages = Math.ceil(response.items_count / ITEMS_PER_PAGE);
       setTotalPages(pages || 0); // Set total items from the API response
     }
   };
@@ -57,29 +59,45 @@ const Home: React.FC = () => {
     setCurrentPage(page);
   };
 
-  const openShowDeleteModal = () => {
+  const openShowDeleteModal = (id: string) => {
     setShowDeleteModal(true);
+    const idNumber = parseInt(id, 10);
+    setPropertyId(idNumber)
   }
 
   const openCreatePropertyModal = () => {
     setShowCreatePropertyModal(true);
   }
 
-  const toggleFavorite = (id: string) => {
+  const toggleFavorite = (id: string, isFavorite: boolean) => {
     const idNumber = parseInt(id, 10);
     const data = {
       "property_id": idNumber
     }
-    addFavoriteById(data).then((result) => {
-      if (result) {
-        console.log('result', result)
-        fetchHotels(currentPage);
-      }
-    });
+    if (isFavorite) {
+      removeFavoriteById(idNumber).then((result) => {
+        if (result) {
+          console.log('result', result)
+          fetchHotels(currentPage);
+        }
+      });
+    } else {
+      addFavoriteById(data).then((result) => {
+        if (result) {
+          console.log('result', result)
+          fetchHotels(currentPage);
+        }
+      });
+    }
+    
   };
 
   const handleDelete = () => {
-    console.log('-----Delete');
+    console.log('-----Delete', propertyId);
+    if (propertyId !== undefined) {
+      deletePropertyById(propertyId);
+    }
+
   };
 
   const handleSearch = async (filters: any) => {
@@ -87,7 +105,7 @@ const Home: React.FC = () => {
     const response = await filterProperty(currentPage, filters);
     if (response && response.properties && response.properties.data) {
       setHotels(response.properties.data);
-      const pages = Math.ceil(response.total_item / ITEMS_PER_PAGE);
+      const pages = Math.ceil(response.items_count / ITEMS_PER_PAGE);
       setTotalPages(pages || 0); // Set total items from the API response
     } else {
       setHotels([]); // Set hotels to an empty array when no data is found
@@ -101,10 +119,10 @@ const Home: React.FC = () => {
     <div className=' bg-gray-100'>
       <div className="max-w-[1200px] lg:mx-auto mx-3 ">
         <div className='flex justify-between py-5'>
-          
-        <h1 className="text-2xl text-cyan-800 font-semibold">Home</h1>
-        {isAdmin && <button className="bg-gradient-to-r from-blue-300 to-cyan-700 text-white p-2 rounded shadow-md hover:shadow-lg" onClick={openCreatePropertyModal}>Create Property</button>}
-       
+
+          <h1 className="text-2xl text-cyan-800 font-semibold">Home</h1>
+          {isAdmin && <button className="bg-gradient-to-r from-blue-300 to-cyan-700 text-white p-2 rounded shadow-md hover:shadow-lg" onClick={openCreatePropertyModal}>Create Property</button>}
+
         </div>
         <FilterComponent onSearch={handleSearch} />
         {loading ? ( // Render the loader when loading is true
@@ -127,7 +145,7 @@ const Home: React.FC = () => {
                     rate={hotel.attributes.price}
                     city={hotel.attributes.city}
                     district={hotel.attributes.district}
-                    isFavorite={false}
+                    isFavorite={hotel.attributes.is_favorite}
                     toggleFavorite={toggleFavorite}
                     image={hotel.attributes.images}
                     openShowDeleteModal={openShowDeleteModal}

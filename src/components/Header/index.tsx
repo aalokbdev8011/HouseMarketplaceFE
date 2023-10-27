@@ -20,11 +20,12 @@ const Header: React.FC = () => {
 
   const handleLogout  = async () => {
     // Remove user data from local storage
-    await logout();
+    // await logout();
     localStorage.removeItem("user");
+    localStorage.removeItem("jwtToken");
     // Use navigate function to navigate to the home page
-    navigate("/");
-    window.location.href = "/";
+    navigate("/signin");
+    // window.location.href = "/";
   };
 
   return (
