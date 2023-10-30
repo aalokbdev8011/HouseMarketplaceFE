@@ -15,8 +15,6 @@ interface HotelProps {
   openCreatePropertyModal?: (id: string) => void;
 }
 
-const API_BASE_URL = 'http://localhost:3001';
-
 const HotelCard: React.FC<HotelProps> = ({ key, id, title, rate, city, isFavorite, image, toggleFavorite, openShowDeleteModal , openCreatePropertyModal}) => {
   const userString = localStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;

@@ -69,30 +69,30 @@ const Home: React.FC = () => {
 
   const openCreatePropertyModal = (id?: string) => {
     setShowCreatePropertyModal(true);
-    if(id){
+    if (id) {
       setPropertyId(id)
     }
   }
 
   const toggleFavorite = (id: string, isFavorite: boolean) => {
-    const idNumber = parseInt(id, 10);
-    const data = {
-      "property_id": idNumber
-    }
-    if (isFavorite) {
-      removeFavoriteById(idNumber).then((result) => {
-        if (result) {
-          fetchHotels(currentPage);
-        }
-      });
-    } else {
-      addFavoriteById(data).then((result) => {
-        if (result) {
-          fetchHotels(currentPage);
-        }
-      });
-    }
-
+      const idNumber = parseInt(id, 10);
+      const data = {
+        "property_id": idNumber
+      }
+      if (isFavorite) {
+        removeFavoriteById(idNumber).then((result) => {
+          if (result) {
+            fetchHotels(currentPage);
+          }
+        });
+      } else {
+        addFavoriteById(data).then((result) => {
+          if (result) {
+            fetchHotels(currentPage);
+          }
+        });
+      }
+  
   };
 
   const handleDelete = async () => {
@@ -128,7 +128,7 @@ const Home: React.FC = () => {
           <h1 className="text-2xl text-cyan-800 font-semibold">Home</h1>
           {isAdmin && <button
             className="bg-gradient-to-r from-blue-300 to-cyan-700 text-white p-2 rounded shadow-md hover:shadow-lg"
-            onClick={()=> openCreatePropertyModal()}>Create Property</button>}
+            onClick={() => openCreatePropertyModal()}>Create Property</button>}
 
         </div>
         <FilterComponent onSearch={handleSearch} />
@@ -164,7 +164,7 @@ const Home: React.FC = () => {
           </div>
         )}
         <CreatePropertyModal
-        id={propertyId}
+          id={propertyId}
           isOpen={showCreatePropertyModal}
           onCancel={() => {
             setPropertyId("");

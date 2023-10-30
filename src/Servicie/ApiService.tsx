@@ -146,7 +146,8 @@ export const removeFavoriteById = async (favoriteById: any) => {
 export const addFavoriteById = async (favoriteById: any) => {
   try {
     const jwtToken = localStorage.getItem('jwtToken');
-    if (jwtToken !== undefined) {
+    console.log('---', jwtToken)
+    if (jwtToken) {
       const response = await axios.post(
         `${API_BASE_URL}/favorites`,
         favoriteById,
