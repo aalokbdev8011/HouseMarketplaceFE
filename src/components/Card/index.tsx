@@ -29,7 +29,7 @@ const HotelCard: React.FC<HotelProps> = ({ key, id, title, rate, city, isFavorit
         <Link to={`/hotel-details/${id}`} className="block">
           <img
           
-            src={image ? (API_BASE_URL + image) : `https://via.placeholder.com/300x200`}
+            src={image ? (image) : `https://via.placeholder.com/300x200`}
             alt={title}
             className="w-full h-40 object-cover"
           />

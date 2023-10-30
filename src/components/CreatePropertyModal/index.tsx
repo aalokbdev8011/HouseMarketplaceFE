@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropertyForm from '../PropertyForm';
 
 interface CreatePropertyFormProps {
@@ -8,11 +8,7 @@ interface CreatePropertyFormProps {
 }
 
 const CreatePropertyModal: React.FC<CreatePropertyFormProps> = ({ id, isOpen, onCancel }) => {
-    const [showModal, setShowModal] = React.useState(false);
-    useEffect(() => {
-        console.log(id, "=====>");
-
-    }, [id])
+  
     return (
         <>
             {isOpen ? (
@@ -40,9 +36,8 @@ const CreatePropertyModal: React.FC<CreatePropertyFormProps> = ({ id, isOpen, on
                                 {/*body*/}
                                 <div className="relative p-6 flex-auto h-full">
                                     <PropertyForm
-                                        setShowModal={setShowModal}
-                                        editMode={false}
-                                        postId={1}
+                                        editMode={true}
+                                        postId={id||''}
                                         onCancel={onCancel} />
                                 </div>
 

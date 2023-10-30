@@ -16,7 +16,7 @@ const Signup: React.FC<FormState> = () => {
     // Check the user's authentication status
     const userString = localStorage.getItem("user");
     const isAuthenticated = !!userString;
-    
+
     // If the user is already authenticated, redirect them to the home page
     if (isAuthenticated) {
       navigate('/');
@@ -86,7 +86,6 @@ const Signup: React.FC<FormState> = () => {
     if (!valid) {
       setErrors(newErrors);
     } else {
-      console.log(formValue);
       const data = {
         "user": {
           "name": formValue.name,
@@ -111,55 +110,57 @@ const Signup: React.FC<FormState> = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <div className='mb-3'>
-              <input
-                name="name"
-                type="text"
-                placeholder='Name'
-                value={formValue.name}
-                onChange={handleChange}
-                className={`w-full border ${errors.name ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
-              />
-              {errors.email && <span className="text-red-500">{errors.email}</span>}
+                <input
+                  name="name"
+                  type="text"
+                  placeholder='Name'
+                  value={formValue.name}
+                  onChange={handleChange}
+                  className={`w-full border ${errors.name ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
+                />
+                {errors.email && <span className="text-red-500">{errors.email}</span>}
               </div>
               <div className='mb-3'>
 
-              <input
-                name="email"
-                type="email"
-                placeholder='Email'
-                value={formValue.email}
-                onChange={handleChange}
-                className={`w-full border ${errors.email ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
-              />
-              {errors.email && <span className="text-red-500">{errors.email}</span>}
+                <input
+                  name="email"
+                  type="email"
+                  placeholder='Email'
+                  value={formValue.email}
+                  onChange={handleChange}
+                  className={`w-full border ${errors.email ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
+                />
+                {errors.email && <span className="text-red-500">{errors.email}</span>}
               </div>
               <div className='mb-3'>
 
-              <input
-                name="password"
-                type="password"
-                placeholder='Password'
-                value={formValue.password}
-                onChange={handleChange}
-                className={`w-full border ${errors.password ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
-              />
-              {errors.password && <span className="text-red-500">{errors.password}</span>}
+                <input
+                  name="password"
+                  type="password"
+                  placeholder='Password'
+                  value={formValue.password}
+                  onChange={handleChange}
+                  className={`w-full border ${errors.password ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
+                />
+                {errors.password && <span className="text-red-500">{errors.password}</span>}
               </div>
               <div className='mb-3'>
 
-              <input
-                name="confirmPassword"
-                type="password"
-                placeholder='Confirm Password'
-                value={formValue.confirmPassword}
-                onChange={handleChange}
-                className={`w-full border ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
-              />
-              {errors.confirmPassword && <span className="text-red-500">{errors.confirmPassword}</span>}
-          </div></div>
+                <input
+                  name="confirmPassword"
+                  type="password"
+                  placeholder='Confirm Password'
+                  value={formValue.confirmPassword}
+                  onChange={handleChange}
+                  className={`w-full border ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}
+                />
+                {errors.confirmPassword && <span className="text-red-500">{errors.confirmPassword}</span>}
+              </div></div>
             <button
               name="Signup"
               type="submit"
+              data-testid="signup-btn"
+              aria-label="Submit"
               className="w-full bg-gradient-to-r from-blue-300 to-cyan-700 text-white p-2 rounded shadow-md hover:shadow-lg"
             >
               Signup

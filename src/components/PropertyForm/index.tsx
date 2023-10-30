@@ -11,13 +11,14 @@ interface FormValues {
     price: string;
     city: string;
     district: string;
-    rooms: number;
+    rooms: string;
     mrt_station: string;
     property_type: string;
     images: File | null; // Initialize the image field as null
 }
 
 interface ApiResponse {
+    data: any;
     success: boolean;
     message: string;
     blog?: {
@@ -40,7 +41,7 @@ const initialValues: FormValues = {
     price: "",
     city: "",
     district: "",
-    rooms: 0,
+    rooms: "",
     mrt_station: "",
     property_type: "",
     images: null,
@@ -51,14 +52,13 @@ const validationSchema = Yup.object({
     price: Yup.string().required("Price is required"),
     city: Yup.string().required("City is required"),
     district: Yup.string().required("District is required"),
-    rooms: Yup.number().required("Rooms is required"),
+    rooms: Yup.string().required("Rooms is required"),
     mrt_station: Yup.string().required("MRT Station is required"),
     property_type: Yup.string().required("Property Type is required"),
     images: Yup.mixed().required("Image is required"),
 });
 
-const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: () => void; editMode: boolean; postId: number }> = ({
-    setShowModal,
+const PropertyForm: React.FC<{onCancel: () => void; editMode: boolean; postId: string }> = ({
     editMode,
     postId,
     onCancel
@@ -73,20 +73,23 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
         }
     }, [editMode, postId]);
 
-    const fetchPostData = async (postId: number) => {
+    const fetchPostData = async (postId: string) => {
         try {
-            const data: ApiResponse = await fetchPropertyDetails(postId);
-            if (data?.blog) {
-                const { title, price, city, district, rooms, mrt_station, property_type } = data?.blog;
+            const idNumber = parseInt(postId, 10);
+            const data: ApiResponse = await fetchPropertyDetails(idNumber);
+            const response = data.data.attributes
+
+            if (response) {
+                const { title, price, city, district, rooms, mrt_station, property_type, images } = response;
                 setInitialValuesForEdit({
                     title,
                     price,
                     city,
-                    district,
+                    district: district[0][0] || '',
                     rooms,
                     mrt_station,
                     property_type,
-                    images: null,
+                    images
                 });
             } else {
                 toast.error(data.message);
@@ -112,7 +115,8 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
 
         try {
             if (editMode) {
-                const response: ApiResponse = await updatePropertyAPI(postId, formData);
+
+                const response: ApiResponse = await updatePropertyAPI(+postId, formData);
                 if (response.success) {
                     toast.success(response.message);
                     navigate("/");
@@ -134,7 +138,6 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
             console.error("API error:", error);
         }
     };
-
     return (
         <div className="addpostpage d-flex align-items-center justify-content-center  overflow-auto">
             <Formik
@@ -179,11 +182,6 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
                                 type="text"
                                 id="city"
                                 name="city"
-                                onKeyPress={(e: { key: string; preventDefault: () => void; }) => {
-                                    if (e.key !== '0' && e.key !== '1' && e.key !== '2' && e.key !== '3' && e.key !== '4' && e.key !== '5' && e.key !== '6' && e.key !== '7' && e.key !== '8' && e.key !== '9' && e.key !== 'Backspace') {
-                                        e.preventDefault();
-                                    }
-                                }}
                             />
                             <ErrorMessage name="city" component="div" className="error text-red-400" />
                         </div>

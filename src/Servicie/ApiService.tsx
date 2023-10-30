@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
-// const API_BASE_URL = 'http://localhost:3001';
+
 const API_BASE_URL = 'https://housemarketplace.onrender.com';
 
 const jwtToken = () => {
@@ -46,7 +46,7 @@ export const filterProperty = async (page: number, filters: any) => {
       apiUrl += `&city=${filters.city}`;
     }
     if (filters.district) {
-      apiUrl += `&district=${filters.district.join(',')}`;
+      apiUrl += `&district=${filters.district}`;
     }
     if (filters.priceMin) {
       apiUrl += `&priceMin=${filters.priceMin}`;
@@ -97,7 +97,7 @@ export const createPropertyAPI = async (data: any) => {
 export const updatePropertyAPI = async (postId: number, data: any): Promise<any> => {
   try {
     const jwtToken = localStorage.getItem('jwtToken');
-    const response = await axios.put(`${API_BASE_URL}/blog/update/${postId}`, data, {
+    const response = await axios.put(`${API_BASE_URL}/properties/${postId}`, data, {
       headers: {
         Authorization: `${jwtToken}`
       }
