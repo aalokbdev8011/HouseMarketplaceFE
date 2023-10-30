@@ -117,12 +117,10 @@ const PropertyForm: React.FC<{onCancel: () => void; editMode: boolean; postId: s
             if (editMode) {
 
                 const response: ApiResponse = await updatePropertyAPI(+postId, formData);
-                if (response.success) {
-                    toast.success(response.message);
+                if (response) {
+                    toast.success('Property Updated successfully');
+                    onCancel();
                     navigate("/");
-                    onCancel()
-                } else {
-                    toast.error(response.message);
                 }
             } else {
 
