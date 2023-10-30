@@ -119,7 +119,6 @@ export const deletePropertyById = async (id: number) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error deleting user:', error);
     return null
   }
 };

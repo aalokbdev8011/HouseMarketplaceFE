@@ -5,6 +5,7 @@ import Pagination from '../../components/Pagination';
 import DeleteModal from '../../components/DeleteModal';
 import CreatePropertyModal from '../../components/CreatePropertyModal';
 import FilterComponent from '../../components/FilterComponent';
+import { toast } from "react-toastify";
 
 interface Hotel {
   id: string;
@@ -35,7 +36,7 @@ const Home: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showCreatePropertyModal, setShowCreatePropertyModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [propertyId, setPropertyId] = useState<number>();
+  const [propertyId, setPropertyId] = useState<string>("");
 
   const userString = localStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
@@ -61,12 +62,15 @@ const Home: React.FC = () => {
 
   const openShowDeleteModal = (id: string) => {
     setShowDeleteModal(true);
-    const idNumber = parseInt(id, 10);
-    setPropertyId(idNumber)
+    // const idNumber = parseInt(id, 10);
+    setPropertyId(id)
   }
 
-  const openCreatePropertyModal = () => {
+  const openCreatePropertyModal = (id?: string) => {
     setShowCreatePropertyModal(true);
+    if(id){
+      setPropertyId(id)
+    }
   }
 
   const toggleFavorite = (id: string, isFavorite: boolean) => {
@@ -77,14 +81,12 @@ const Home: React.FC = () => {
     if (isFavorite) {
       removeFavoriteById(idNumber).then((result) => {
         if (result) {
-          console.log('result', result)
           fetchHotels(currentPage);
         }
       });
     } else {
       addFavoriteById(data).then((result) => {
         if (result) {
-          console.log('result', result)
           fetchHotels(currentPage);
         }
       });
@@ -93,9 +95,11 @@ const Home: React.FC = () => {
   };
 
   const handleDelete = async () => {
-    if (propertyId !== undefined) {
-     const res = await deletePropertyById(propertyId);
-     console.log('res', res);
+    if (propertyId !== "") {
+      const res = await deletePropertyById(+propertyId);
+      toast.success(res.message);
+      fetchHotels(currentPage);
+      setShowDeleteModal(false);
     }
 
   };
@@ -121,7 +125,9 @@ const Home: React.FC = () => {
         <div className='flex justify-between py-5'>
 
           <h1 className="text-2xl text-cyan-800 font-semibold">Home</h1>
-          {isAdmin && <button className="bg-gradient-to-r from-blue-300 to-cyan-700 text-white p-2 rounded shadow-md hover:shadow-lg" onClick={openCreatePropertyModal}>Create Property</button>}
+          {isAdmin && <button
+            className="bg-gradient-to-r from-blue-300 to-cyan-700 text-white p-2 rounded shadow-md hover:shadow-lg"
+            onClick={()=> openCreatePropertyModal()}>Create Property</button>}
 
         </div>
         <FilterComponent onSearch={handleSearch} />
@@ -157,8 +163,12 @@ const Home: React.FC = () => {
           </div>
         )}
         <CreatePropertyModal
+        id={propertyId}
           isOpen={showCreatePropertyModal}
-          onCancel={() => setShowCreatePropertyModal(false)}
+          onCancel={() => {
+            setPropertyId("");
+            setShowCreatePropertyModal(false);
+          }}
         />
         <DeleteModal
           isOpen={showDeleteModal}
@@ -169,7 +179,7 @@ const Home: React.FC = () => {
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={handlePageChange} 
+            onPageChange={handlePageChange}
             maxVisiblePages={5}
           />
         </div>

@@ -12,7 +12,7 @@ interface HotelProps {
   toggleFavorite: (id: string, isFavorite: boolean) => void;
   image: string;
   openShowDeleteModal: (id: string) => void;
-  openCreatePropertyModal?: () => void;
+  openCreatePropertyModal?: (id: string) => void;
 }
 
 const API_BASE_URL = 'http://localhost:3001';
@@ -59,13 +59,13 @@ const HotelCard: React.FC<HotelProps> = ({ key, id, title, rate, city, isFavorit
       {isAdmin &&
         <div className='flex gap-3 justify-end p-2'>
           <img
-            onClick={(id) => openShowDeleteModal("1")}
+            onClick={() => openShowDeleteModal(id)}
             className="w-8 h-8 cursor-pointer"
             alt="delete"
             src="https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-line/254000/127-512.png"
           />
           <img
-            onClick={openCreatePropertyModal}
+            onClick={()=> openCreatePropertyModal && openCreatePropertyModal(id)}
             className="w-8 h-8 cursor-pointer"
             alt="edit"
             src="https://cdn3.iconfinder.com/data/icons/user-interface-web-1/550/web-circle-circular-round_58-512.png"

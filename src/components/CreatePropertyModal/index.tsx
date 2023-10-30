@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropertyForm from '../PropertyForm';
 
 interface CreatePropertyFormProps {
+    id?: string;
     isOpen: boolean;
     onCancel: () => void;
 }
 
-const CreatePropertyModal: React.FC<CreatePropertyFormProps> = ({ isOpen, onCancel }) => {
+const CreatePropertyModal: React.FC<CreatePropertyFormProps> = ({ id, isOpen, onCancel }) => {
     const [showModal, setShowModal] = React.useState(false);
+    useEffect(() => {
+        console.log(id, "=====>");
+
+    }, [id])
     return (
         <>
             {isOpen ? (
@@ -21,7 +26,7 @@ const CreatePropertyModal: React.FC<CreatePropertyFormProps> = ({ isOpen, onCanc
                                 {/*header*/}
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
                                     <h3 className="text-xl text-cyan-800 font-semibold">
-                                        Create Property
+                                        {id ? "Edit Property" : "Create Property"}
                                     </h3>
                                     <button
                                         className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -37,10 +42,10 @@ const CreatePropertyModal: React.FC<CreatePropertyFormProps> = ({ isOpen, onCanc
                                     <PropertyForm
                                         setShowModal={setShowModal}
                                         editMode={false}
-                                        postId={1} 
-                                        onCancel={onCancel}/>
+                                        postId={1}
+                                        onCancel={onCancel} />
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>

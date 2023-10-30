@@ -123,12 +123,10 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
             } else {
 
                 const response: ApiResponse = await createPropertyAPI(formData);
-                if (response.success) {
+                if (response) {
                     toast.success('Property added successfully');
                     onCancel();
                     navigate("/");
-                } else if (response.success === false) {
-                    toast.error(response.message);
                 }
             }
             setSubmitBtnDisable(false);
