@@ -49,12 +49,14 @@ const Home: React.FC = () => {
   }, [currentPage]);
 
   const fetchHotels = async (page: number) => {
+    setLoading(true);
     const response = await fetchData(page);
     if (response && response.properties && response.properties.data) {
       setHotels(response.properties.data);
       const pages = Math.ceil(response.items_count / ITEMS_PER_PAGE);
       setTotalPages(pages || 0); // Set total items from the API response
     }
+    setLoading(false);
   };
 
   const handlePageChange = (page: number) => {
@@ -75,24 +77,24 @@ const Home: React.FC = () => {
   }
 
   const toggleFavorite = (id: string, isFavorite: boolean) => {
-      const idNumber = parseInt(id, 10);
-      const data = {
-        "property_id": idNumber
-      }
-      if (isFavorite) {
-        removeFavoriteById(idNumber).then((result) => {
-          if (result) {
-            fetchHotels(currentPage);
-          }
-        });
-      } else {
-        addFavoriteById(data).then((result) => {
-          if (result) {
-            fetchHotels(currentPage);
-          }
-        });
-      }
-  
+    const idNumber = parseInt(id, 10);
+    const data = {
+      "property_id": idNumber
+    }
+    if (isFavorite) {
+      removeFavoriteById(idNumber).then((result) => {
+        if (result) {
+          fetchHotels(currentPage);
+        }
+      });
+    } else {
+      addFavoriteById(data).then((result) => {
+        if (result) {
+          fetchHotels(currentPage);
+        }
+      });
+    }
+
   };
 
   const handleDelete = async () => {
@@ -177,12 +179,12 @@ const Home: React.FC = () => {
           onDelete={handleDelete}
         />
         <div className='flex justify-center mb-10 mt-5'>
-          <Pagination
+          {hotels.length !== 0 && hotels.length === 0 && <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
             maxVisiblePages={5}
-          />
+          />}
         </div>
       </div>
     </div>

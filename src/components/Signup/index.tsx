@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { signup } from '../../Servicie/ApiService';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import ButtonLoader from '../ButtonLoader';
 
 interface FormState {
   name?: string,
@@ -12,6 +13,8 @@ interface FormState {
 
 const Signup: React.FC<FormState> = () => {
   const navigate = useNavigate();
+  const [submitBtnDisable, setSubmitBtnDisable] = useState(false);
+
   useEffect(() => {
     // Check the user's authentication status
     const userString = localStorage.getItem("user");
@@ -61,7 +64,7 @@ const Signup: React.FC<FormState> = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Validate the form
     let valid = true;
@@ -86,6 +89,7 @@ const Signup: React.FC<FormState> = () => {
     if (!valid) {
       setErrors(newErrors);
     } else {
+      setSubmitBtnDisable(true);
       const data = {
         "user": {
           "name": formValue.name,
@@ -93,12 +97,13 @@ const Signup: React.FC<FormState> = () => {
           "password": formValue.password
         }
       }
-      signup(data).then((result) => {
+      await signup(data).then((result) => {
         if (result) {
           toast.success(`${result.status.message}`);
           navigate('/signin')
         }
       });
+      setSubmitBtnDisable(false);
     }
   };
 
@@ -161,9 +166,10 @@ const Signup: React.FC<FormState> = () => {
               type="submit"
               data-testid="signup-btn"
               aria-label="Submit"
-              className="w-full bg-gradient-to-r from-blue-300 to-cyan-700 text-white p-2 rounded shadow-md hover:shadow-lg"
+              className="w-full bg-gradient-to-r from-blue-300 to-cyan-700 text-white p-2 rounded shadow-md hover:shadow-lg flex justify-center items-center"
+              disabled={submitBtnDisable}
             >
-              Signup
+              {submitBtnDisable ? <ButtonLoader /> : "Signup" }
             </button>
           </form>
         </div>
