@@ -179,7 +179,7 @@ const Home: React.FC = () => {
           onDelete={handleDelete}
         />
         <div className='flex justify-center mb-10 mt-5'>
-          {hotels.length !== 0 && hotels.length === 0 && <Pagination
+          {hotels.length !== 0 && <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
