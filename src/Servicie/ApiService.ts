@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
-// const API_BASE_URL = 'http://localhost:3001';
-const API_BASE_URL = 'https://housemarketplace.onrender.com';
+const API_BASE_URL = 'http://localhost:3001';
+// const API_BASE_URL = 'https://housemarketplace.onrender.com';
 
 const jwtToken = () => {
   return localStorage.getItem('jwtToken');
@@ -70,7 +70,7 @@ export const filterProperty = async (page: number, filters: any) => {
 
 export const fetchPropertyDetails = async (id: number) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/blog/${id}`);
+    const response = await axios.get(`${API_BASE_URL}/properties/${id}`);
     return response.data; // Assuming your API returns an object
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -90,7 +90,7 @@ export const createPropertyAPI = async (data: any) => {
     return response.data;
   } catch (error) {
     console.error('Error posting data:', error);
-    throw error;
+    return null;
   }
 };
 
@@ -120,7 +120,7 @@ export const deletePropertyById = async (id: number) => {
     return response.data;
   } catch (error) {
     console.error('Error deleting user:', error);
-    throw error;
+    return null
   }
 };
 
@@ -147,7 +147,7 @@ export const removeFavoriteById = async (favoriteById: any) => {
 export const addFavoriteById = async (favoriteById: any) => {
   try {
     const jwtToken = localStorage.getItem('jwtToken');
-    if (jwtToken != undefined) {
+    if (jwtToken !== undefined) {
       const response = await axios.post(
         `${API_BASE_URL}/favorites`,
         favoriteById,
@@ -172,11 +172,11 @@ export const addFavoriteById = async (favoriteById: any) => {
 
 export const signup = async (userData: any) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/users/sign_up`, userData);
+    const response = await axios.post(`${API_BASE_URL}/users`, userData);
     return response.data;
   } catch (error) {
     console.error('Error signing up:', error);
-    throw error;
+    return null;
   }
 };
 

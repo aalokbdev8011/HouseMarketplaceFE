@@ -22,7 +22,7 @@ interface Hotel {
     rooms: number;
     created_at: string;
     updated_at: string;
-    images: any;
+    image: string;
   }
 }
 
@@ -147,7 +147,7 @@ const Home: React.FC = () => {
                     district={hotel.attributes.district}
                     isFavorite={hotel.attributes.is_favorite}
                     toggleFavorite={toggleFavorite}
-                    image={hotel.attributes.images}
+                    image={hotel.attributes.image}
                     openShowDeleteModal={openShowDeleteModal}
                     openCreatePropertyModal={openCreatePropertyModal}
                   />

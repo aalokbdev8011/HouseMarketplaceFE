@@ -1,5 +1,5 @@
 // FilterComponent.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 interface FilterComponentProps {
@@ -143,6 +143,11 @@ function FilterComponent({ onSearch }: FilterComponentProps) {
                 placeholder="Minimum Price"
                 value={priceMin}
                 onChange={(e) => setPriceMin(e.target.value)}
+                onKeyPress={(e: { key: string; preventDefault: () => void; }) => {
+                    if (e.key !== '0' && e.key !== '1' && e.key !== '2' && e.key !== '3' && e.key !== '4' && e.key !== '5' && e.key !== '6' && e.key !== '7' && e.key !== '8' && e.key !== '9' && e.key !== 'Backspace') {
+                        e.preventDefault();
+                    }
+                }}
                 className="w-full border p-2 rounded"
             />
             <span className='absolute bottom-0 right-0 px-3 p-[9px] bg-gray-300'>ping</span>
@@ -154,6 +159,11 @@ function FilterComponent({ onSearch }: FilterComponentProps) {
                 placeholder="Maximum Price"
                 value={priceMax}
                 onChange={(e) => setPriceMax(e.target.value)}
+                onKeyPress={(e: { key: string; preventDefault: () => void; }) => {
+                    if (e.key !== '0' && e.key !== '1' && e.key !== '2' && e.key !== '3' && e.key !== '4' && e.key !== '5' && e.key !== '6' && e.key !== '7' && e.key !== '8' && e.key !== '9' && e.key !== 'Backspace') {
+                        e.preventDefault();
+                    }
+                }}
                 className="w-full border p-2 rounded"
             />
             <span className='absolute bottom-0 right-0 px-3 p-[9px] bg-gray-300'>ping</span>

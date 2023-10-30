@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import ButtonLoader from "../ButtonLoader";
@@ -57,11 +57,6 @@ const validationSchema = Yup.object({
     images: Yup.mixed().required("Image is required"),
 });
 
-const bufferToFile = (bufferImageData: ArrayBuffer): File => {
-    const blob = new Blob([bufferImageData], { type: "image/jpeg" });
-    return new File([blob], "image.jpg", { type: "image/jpeg" });
-};
-
 const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: () => void; editMode: boolean; postId: number }> = ({
     setShowModal,
     editMode,
@@ -82,7 +77,6 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
         try {
             const data: ApiResponse = await fetchPropertyDetails(postId);
             if (data?.blog) {
-                const imageData = bufferToFile(data?.blog.images.data);
                 const { title, price, city, district, rooms, mrt_station, property_type } = data?.blog;
                 setInitialValuesForEdit({
                     title,
@@ -143,12 +137,6 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
         }
     };
 
-    const formik = useFormik({
-        initialValues: initialValuesForEdit,
-        validationSchema: validationSchema,
-        onSubmit: handleSubmit,
-    });
-
     return (
         <div className="addpostpage d-flex align-items-center justify-content-center  overflow-auto">
             <Formik
@@ -171,7 +159,16 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
                             <label className="text-black mb-2" htmlFor="price">
                                 Price
                             </label>
-                            <Field className="inputField p-3 text-black bg-white border border-gray" type="text" id="price" name="price" />
+                            <Field className="inputField p-3 text-black bg-white border border-gray"
+                                type="text"
+                                id="price"
+                                name="price"
+                                onKeyPress={(e: { key: string; preventDefault: () => void; }) => {
+                                    if (e.key !== '0' && e.key !== '1' && e.key !== '2' && e.key !== '3' && e.key !== '4' && e.key !== '5' && e.key !== '6' && e.key !== '7' && e.key !== '8' && e.key !== '9' && e.key !== 'Backspace') {
+                                        e.preventDefault();
+                                    }
+                                }}
+                            />
                             <ErrorMessage name="price" component="div" className="error text-red-400" />
                         </div>
 
@@ -179,7 +176,17 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
                             <label className="text-black mb-2" htmlFor="city">
                                 City
                             </label>
-                            <Field className="inputField p-3 text-black bg-white border border-gray" type="text" id="city" name="city" />
+                            <Field
+                                className="inputField p-3 text-black bg-white border border-gray"
+                                type="text"
+                                id="city"
+                                name="city"
+                                onKeyPress={(e: { key: string; preventDefault: () => void; }) => {
+                                    if (e.key !== '0' && e.key !== '1' && e.key !== '2' && e.key !== '3' && e.key !== '4' && e.key !== '5' && e.key !== '6' && e.key !== '7' && e.key !== '8' && e.key !== '9' && e.key !== 'Backspace') {
+                                        e.preventDefault();
+                                    }
+                                }}
+                            />
                             <ErrorMessage name="city" component="div" className="error text-red-400" />
                         </div>
 
@@ -195,7 +202,16 @@ const PropertyForm: React.FC<{ setShowModal: (show: boolean) => void; onCancel: 
                             <label className="text-black mb-2" htmlFor="rooms">
                                 Rooms
                             </label>
-                            <Field className="inputField p-3 text-black bg-white border border-gray" type="number" id="rooms" name="rooms" />
+                            <Field
+                                className="inputField p-3 text-black bg-white border border-gray"
+                                type="text"
+                                id="rooms" name="rooms"
+                                onKeyPress={(e: { key: string; preventDefault: () => void; }) => {
+                                    if (e.key !== '0' && e.key !== '1' && e.key !== '2' && e.key !== '3' && e.key !== '4' && e.key !== '5' && e.key !== '6' && e.key !== '7' && e.key !== '8' && e.key !== '9' && e.key !== 'Backspace') {
+                                        e.preventDefault();
+                                    }
+                                }}
+                            />
                             <ErrorMessage name="rooms" component="div" className="error text-red-400" />
                         </div>
 

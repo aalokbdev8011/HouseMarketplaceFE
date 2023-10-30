@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 interface User {
   email: string;
-  name: string
+  name: string;
+  role: string;
 }
 
 const Header: React.FC = () => {
@@ -11,20 +12,16 @@ const Header: React.FC = () => {
   const userString = localStorage.getItem("user");
   const user: User | null = userString ? JSON.parse(userString) : null;
 
-  // const isAdmin = user?.role === "admin";
+  const isAdmin = user?.role === "admin";
 
   const getFirstLetter = (email: string) => {
     return email ? email[0].toUpperCase() : '';
   };
 
   const handleLogout  = async () => {
-    // Remove user data from local storage
-    // await logout();
     localStorage.removeItem("user");
     localStorage.removeItem("jwtToken");
-    // Use navigate function to navigate to the home page
     navigate("/signin");
-    // window.location.href = "/";
   };
 
   return (
@@ -36,7 +33,7 @@ const Header: React.FC = () => {
           <div className="flex justify-center items-center">
             
             <nav className="space-x-4">
-              <Link to="/favorites" className="text-cyan-600 hover:text-blue-300">Favorites</Link>
+              {!isAdmin && <Link to="/favorites" className="text-cyan-600 hover:text-blue-300">Favorites</Link>}
               <button className='text-red-600 hover:text-red-300' onClick={handleLogout}>Logout</button>
             </nav>
             <p className='ml-2 text-green-500'>Welcome, {user.name}</p>
