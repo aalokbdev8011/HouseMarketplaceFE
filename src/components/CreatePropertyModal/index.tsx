@@ -36,7 +36,7 @@ const CreatePropertyModal: React.FC<CreatePropertyFormProps> = ({ id, isOpen, on
                                 {/*body*/}
                                 <div className="relative p-6 flex-auto h-full">
                                     <PropertyForm
-                                        editMode={true}
+                                        editMode={!!id}
                                         postId={id||''}
                                         onCancel={onCancel} />
                                 </div>

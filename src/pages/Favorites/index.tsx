@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import HotelCard from '../../components/Card';
-import { addFavoriteById, fetchFavoriteListData } from '../../Servicie/ApiService';
+import { removeFavoriteById, fetchFavoriteListData } from '../../Servicie/ApiService';
 import Pagination from '../../components/Pagination';
 import DeleteModal from '../../components/DeleteModal';
 
@@ -20,6 +20,9 @@ interface Hotel {
         created_at: string;
         updated_at: string;
         images: any;
+        image_url: string;
+        is_favorite: boolean;
+
     }
 }
 
@@ -54,10 +57,7 @@ const Favorites: React.FC = () => {
 
     const toggleFavorite = (id: string) => {
         const idNumber = parseInt(id, 10);
-        const data = {
-            "property_id": idNumber
-        }
-        addFavoriteById(data).then((result) => {
+        removeFavoriteById(idNumber).then((result) => {
             if (result) {
                 fetchFavoritProperty(currentPage);
             }
@@ -83,9 +83,9 @@ const Favorites: React.FC = () => {
                                 rate={hotel.attributes.price}
                                 city={hotel.attributes.city}
                                 district={hotel.attributes.district}
-                                isFavorite={false}
+                                isFavorite={hotel.attributes.is_favorite}
                                 toggleFavorite={toggleFavorite}
-                                image={hotel.attributes.images}
+                                image={hotel.attributes.image_url}
                                 openShowDeleteModal={openShowDeleteModal}
                             />
                         </div>
