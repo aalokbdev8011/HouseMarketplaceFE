@@ -38,29 +38,42 @@ const Home: React.FC = () => {
   const [showCreatePropertyModal, setShowCreatePropertyModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [propertyId, setPropertyId] = useState<string>("");
-
+  const [filtersApplied, setFiltersApplied] = useState(false);
+  const [appliedFilters, setAppliedFilters] = useState<any>({});
+  const [searchPage, setSearchPage] = useState(1);
   const userString = localStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
   const isAdmin = user?.role === "admin";
 
   useEffect(() => {
-    fetchHotels(currentPage);
-  }, [currentPage]);
+    fetchHotels(currentPage, searchPage);
+  }, []);
 
-  const fetchHotels = async (page: number) => {
+  const fetchHotels = async (currentPage: number, searchPage: number) => {
     setLoading(true);
-    const response = await fetchData(page);
+    const response = await fetchData(searchPage !== 1 ? searchPage : currentPage);
     if (response && response.properties && response.properties.data) {
       setHotels(response.properties.data);
       const pages = Math.ceil(response.items_count / ITEMS_PER_PAGE);
-      setTotalPages(pages || 0); // Set total items from the API response
+      setTotalPages(pages || 0);
+      setCurrentPage(currentPage);
     }
     setLoading(false);
   };
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+  const handlePageChange = async (page: number) => {
+
+    if (page !== searchPage) {
+      if (filtersApplied) {
+        await handleSearch(appliedFilters, page); // Pass the page number to handleSearch
+        setSearchPage(page); // Update the searchPage
+      } else {
+        fetchHotels(page, searchPage);
+      }
+    } else {
+      setSearchPage(page);
+    }
   };
 
   const openShowDeleteModal = (id: string) => {
@@ -84,38 +97,39 @@ const Home: React.FC = () => {
     if (isFavorite) {
       removeFavoriteById(idNumber).then((result) => {
         if (result) {
-          fetchHotels(currentPage);
+          fetchHotels(currentPage, searchPage);
         }
       });
     } else {
       addFavoriteById(data).then((result) => {
         if (result) {
-          fetchHotels(currentPage);
+          fetchHotels(currentPage, searchPage);
         }
       });
     }
-
   };
 
   const handleDelete = async () => {
     if (propertyId !== "") {
       const res = await deletePropertyById(+propertyId);
       toast.success(res.message);
-      fetchHotels(currentPage);
+      fetchHotels(currentPage, searchPage);
       setShowDeleteModal(false);
     }
-
   };
 
-  const handleSearch = async (filters: any) => {
+  const handleSearch = async (filters: any, page: number = 1) => {
     setLoading(true);
-    const response = await filterProperty(currentPage, filters);
+    setCurrentPage(page);
+    setFiltersApplied(true);
+    setAppliedFilters(filters);
+    const response = await filterProperty(page, filters);
     if (response && response.properties && response.properties.data) {
       setHotels(response.properties.data);
       const pages = Math.ceil(response.items_count / ITEMS_PER_PAGE);
-      setTotalPages(pages || 0); // Set total items from the API response
+      setTotalPages(pages || 0);
     } else {
-      setHotels([]); // Set hotels to an empty array when no data is found
+      setHotels([]);
     }
     setLoading(false);
   };
@@ -145,8 +159,8 @@ const Home: React.FC = () => {
                 No properties found.
               </div>
             ) : (
-              hotels.map((hotel) => (
-                <div key={hotel.id} className="md:w-1/3 sm:w-1/2 w-full my-3">
+              hotels.map((hotel, index) => (
+                <div key={hotel.id + index} className="md:w-1/3 sm:w-1/2 w-full my-3">
                   <HotelCard
                     key={hotel.id}
                     id={hotel.id}
